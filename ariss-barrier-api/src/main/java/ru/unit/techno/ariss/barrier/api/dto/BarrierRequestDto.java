@@ -7,4 +7,5 @@ public class BarrierRequestDto {
 
     private String barrierCoreAddress;
     private Long barrierId;
+    private String governmentNumber;
 }
