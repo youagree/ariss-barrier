@@ -6,6 +6,7 @@
     <modules>
         <module>ariss-barrier-impl</module>
         <module>ariss-barrier-api</module>
+        <module>ariss-barrier-db</module>
     </modules>
 
     <groupId>ru.unit.techno.ariss.barrier</groupId>

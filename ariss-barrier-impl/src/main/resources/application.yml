@@ -8,23 +8,23 @@ logging:
 spring:
   application:
     name: ariss-barrier
-#  jpa:
-#    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: validate
-#    properties:
-#      hibernate:
-#        default_schema: device_registration_service
-#        use_sql_comments: true
-#        format_sql: true
-#        criteria:
-#          literal_handling_mode: BIND
-#  datasource:
-#    driverClassName: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/unit_techno?currentSchema=device_registration_service
-#    username: device_registration_admin
-#    password: squd
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: ariss_barrier
+        use_sql_comments: true
+        format_sql: true
+        criteria:
+          literal_handling_mode: BIND
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/unit_techno?currentSchema=ariss_barrier
+    username: ariss_barrier_admin
+    password: squd
   eureka:
     client:
       serviceUrl:
@@ -37,3 +37,12 @@ spring:
       discovery:
         enable: true
         service-id: ariss_barrier
+
+event:
+  type:
+    7777:
+      info: "административный корпус"
+      entryType: OUT
+    8888:
+      info: "задний проход"
+      entryType: IN
