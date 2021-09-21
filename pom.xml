@@ -25,6 +25,7 @@
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <stomp-version>2.3.3</stomp-version>
         <springfox-swagger2>2.9.2</springfox-swagger2>
+        <ariss-log-action-db.version>1.0-SNAPSHOT</ariss-log-action-db.version>
 
         <build.number>1</build.number>
     </properties>
@@ -44,6 +45,12 @@
                 <version>2020.0.3</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>ru.unit.techno</groupId>
+                <artifactId>ariss-log-action-db</artifactId>
+                <version>${ariss-log-action-db.version}</version>
             </dependency>
 
             <!-- mappers -->

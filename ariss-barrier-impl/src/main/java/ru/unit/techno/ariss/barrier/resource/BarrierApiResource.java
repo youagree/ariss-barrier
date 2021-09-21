@@ -17,7 +17,7 @@ import ru.unit.techno.ariss.log.action.lib.model.ActionStatus;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/barrier")
-public class BarrierResource {
+public class BarrierApiResource {
 
     private final LogActionBuilder logActionBuilder;
 
@@ -44,26 +44,5 @@ public class BarrierResource {
         }
 
         return null;
-    }
-
-    @PostMapping("/forceOpen")
-    public BarrierResponseDto forceOpen(@RequestBody BarrierRequestDto request) {
-        try {
-            /// TODO: 13.09.2021 Какая то логика по форс опену
-            logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),
-                    0L,
-                    request.getGovernmentNumber(),
-                    ActionStatus.UNKNOWN);
-        } catch (Exception e) {
-            logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),
-                    0L,
-                    request.getGovernmentNumber(),
-                    ActionStatus.UNKNOWN,
-                    true,
-                    new Description().setStatusCode("500")
-                            .setErroredServiceName("Ariss Barrier")
-                            .setMessage(e.getMessage() != null ? e.getMessage() : "Internal error: " + e.getLocalizedMessage()));
-        }
-        return new BarrierResponseDto();
     }
 }
