@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.unit.techno.ariss.barrier.api.dto.BarrierRequestDto;
 import ru.unit.techno.ariss.barrier.api.dto.BarrierResponseDto;
 import ru.unit.techno.ariss.barrier.api.enums.BarrierResponseStatus;
+import ru.unit.techno.ariss.barrier.service.BarrierService;
 import ru.unit.techno.ariss.log.action.lib.api.LogActionBuilder;
 import ru.unit.techno.ariss.log.action.lib.entity.Description;
 import ru.unit.techno.ariss.log.action.lib.model.ActionStatus;
@@ -19,30 +20,10 @@ import ru.unit.techno.ariss.log.action.lib.model.ActionStatus;
 @RequestMapping("/api/barrier")
 public class BarrierApiResource {
 
-    private final LogActionBuilder logActionBuilder;
+    private final BarrierService barrierService;
 
     @PostMapping("/open")
     public BarrierResponseDto openBarrier(@RequestBody BarrierRequestDto request) {
-        log.info("Received request to barrier open, request body: {}", request);
-        try {
-            //TODO логика открытия шлагбаума
-            //....какая то логика....
-            BarrierResponseDto barrierResponseDto = new BarrierResponseDto()
-                    .setBarrierId(request.getBarrierId())
-                    .setBarrierResponseStatus(BarrierResponseStatus.SUCCESS);
-            log.info("Barrier successfully opened, barrier ID {}", request.getBarrierId());
-            return barrierResponseDto;
-        } catch (Exception e) {
-            logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),
-                    0L,
-                    request.getGovernmentNumber(),
-                    ActionStatus.UNKNOWN,
-                    true,
-                    new Description().setStatusCode("500")
-                            .setErroredServiceName("Ariss Barrier")
-                            .setMessage(e.getMessage() != null ? e.getMessage() : "Internal error: " + e.getLocalizedMessage()));
-        }
-
-        return null;
+        return barrierService.openBarrier(request);
     }
 }
