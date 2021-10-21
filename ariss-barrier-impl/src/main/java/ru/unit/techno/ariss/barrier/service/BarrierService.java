@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.unit.techno.ariss.barrier.api.dto.BarrierRequestDto;
+import ru.unit.techno.ariss.barrier.api.dto.BarrierRequestDtoUi;
 import ru.unit.techno.ariss.barrier.api.dto.BarrierResponseDto;
 import ru.unit.techno.ariss.barrier.api.enums.BarrierResponseStatus;
 import ru.unit.techno.ariss.log.action.lib.api.LogActionBuilder;
@@ -17,7 +18,7 @@ public class BarrierService {
 
     private final LogActionBuilder logActionBuilder;
 
-    public BarrierResponseDto forceOpen(BarrierRequestDto request) {
+    public BarrierResponseDto forceOpen(BarrierRequestDtoUi request) {
         try {
             /// TODO: 13.09.2021 Какая то логика по форс опену
             logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),

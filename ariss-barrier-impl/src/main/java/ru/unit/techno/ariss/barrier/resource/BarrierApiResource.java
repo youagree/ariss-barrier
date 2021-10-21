@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.unit.techno.ariss.barrier.api.dto.BarrierRequestDto;
 import ru.unit.techno.ariss.barrier.api.dto.BarrierResponseDto;
-import ru.unit.techno.ariss.barrier.api.enums.BarrierResponseStatus;
 import ru.unit.techno.ariss.barrier.service.BarrierService;
-import ru.unit.techno.ariss.log.action.lib.api.LogActionBuilder;
-import ru.unit.techno.ariss.log.action.lib.entity.Description;
-import ru.unit.techno.ariss.log.action.lib.model.ActionStatus;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -23,7 +21,7 @@ public class BarrierApiResource {
     private final BarrierService barrierService;
 
     @PostMapping("/open")
-    public BarrierResponseDto openBarrier(@RequestBody BarrierRequestDto request) {
+    public BarrierResponseDto openBarrier(@Valid @RequestBody BarrierRequestDto request) {
         return barrierService.openBarrier(request);
     }
 }
