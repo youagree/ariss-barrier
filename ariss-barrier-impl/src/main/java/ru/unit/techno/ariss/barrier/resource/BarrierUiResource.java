@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.unit.techno.ariss.barrier.api.dto.BarrierRequestDtoUi;
-import ru.unit.techno.ariss.barrier.api.dto.BarrierResponseDto;
 import ru.unit.techno.ariss.barrier.service.BarrierService;
 
 import javax.validation.Valid;
@@ -22,7 +21,7 @@ public class BarrierUiResource {
     private final BarrierService barrierService;
 
     @PostMapping("/forceOpen")
-    public BarrierResponseDto forceOpen(@RequestBody @Valid BarrierRequestDtoUi request) {
-        return barrierService.forceOpen(request);
+    public void forceOpen(@RequestBody @Valid BarrierRequestDtoUi request) {
+        barrierService.forceOpen(request);
     }
 }

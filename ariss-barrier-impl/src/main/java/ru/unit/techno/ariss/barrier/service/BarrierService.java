@@ -18,9 +18,9 @@ public class BarrierService {
 
     private final LogActionBuilder logActionBuilder;
 
-    public BarrierResponseDto forceOpen(BarrierRequestDtoUi request) {
+    public void forceOpen(BarrierRequestDtoUi request) {
         try {
-            /// TODO: 13.09.2021 Какая то логика по форс опену
+            /// TODO: 13.09.2021 Какая то логика по форс опену и добавить 409 если не удалось открыть
             logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),
                     0L,
                     request.getGovernmentNumber(),
@@ -35,7 +35,6 @@ public class BarrierService {
                             .setErroredServiceName("Ariss Barrier")
                             .setMessage(e.getMessage() != null ? e.getMessage() : "Internal error: " + e.getLocalizedMessage()));
         }
-        return new BarrierResponseDto();
     }
 
     public BarrierResponseDto openBarrier(BarrierRequestDto request) {
