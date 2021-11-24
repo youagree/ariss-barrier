@@ -10,6 +10,9 @@ import ru.unit.techno.ariss.barrier.api.enums.BarrierResponseStatus;
 import ru.unit.techno.ariss.log.action.lib.api.LogActionBuilder;
 import ru.unit.techno.ariss.log.action.lib.entity.Description;
 import ru.unit.techno.ariss.log.action.lib.model.ActionStatus;
+import ru.unit.techno.device.registration.api.DeviceResource;
+import ru.unit.techno.device.registration.api.dto.DeviceResponseDto;
+import ru.unit.techno.device.registration.api.enums.DeviceType;
 
 @Slf4j
 @Service
@@ -17,10 +20,13 @@ import ru.unit.techno.ariss.log.action.lib.model.ActionStatus;
 public class BarrierService {
 
     private final LogActionBuilder logActionBuilder;
+    private final DeviceResource deviceResource;
 
     public void forceOpen(BarrierRequestDtoUi request) {
         try {
-            /// TODO: 13.09.2021 Какая то логика по форс опену и добавить 409 если не удалось открыть
+            /// TODO: 13.09.2021 Какая то логика по форс опену
+            DeviceResponseDto group = deviceResource.getGroupDevices(request.getBarrierId(), DeviceType.ENTRY);
+
             logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),
                     0L,
                     request.getGovernmentNumber(),
