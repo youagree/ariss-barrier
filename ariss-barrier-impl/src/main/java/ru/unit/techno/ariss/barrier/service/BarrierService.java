@@ -28,12 +28,12 @@ public class BarrierService {
             DeviceResponseDto group = deviceResource.getGroupDevices(request.getBarrierId(), DeviceType.ENTRY);
 
             logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),
-                    0L,
+                    null,
                     request.getGovernmentNumber(),
                     ActionStatus.UNKNOWN);
         } catch (Exception e) {
             logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),
-                    0L,
+                    null,
                     request.getGovernmentNumber(),
                     ActionStatus.UNKNOWN,
                     true,
