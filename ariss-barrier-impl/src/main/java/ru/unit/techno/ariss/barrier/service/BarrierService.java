@@ -1,6 +1,7 @@
 package ru.unit.techno.ariss.barrier.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.unit.techno.ariss.barrier.api.dto.BarrierRequestDto;
@@ -14,6 +15,12 @@ import ru.unit.techno.device.registration.api.DeviceResource;
 import ru.unit.techno.device.registration.api.dto.DeviceResponseDto;
 import ru.unit.techno.device.registration.api.enums.DeviceType;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -24,9 +31,8 @@ public class BarrierService {
 
     public void forceOpen(BarrierRequestDtoUi request) {
         try {
-            /// TODO: 13.09.2021 Какая то логика по форс опену
             DeviceResponseDto group = deviceResource.getGroupDevices(request.getBarrierId(), DeviceType.ENTRY);
-
+            requestToOpenBarrier(group);
             logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),
                     null,
                     request.getGovernmentNumber(),
@@ -43,27 +49,42 @@ public class BarrierService {
         }
     }
 
-    public BarrierResponseDto openBarrier(BarrierRequestDto request) {
-        log.info("Received request to barrier open, request body: {}", request);
+    @SneakyThrows
+    public BarrierResponseDto openBarrier(BarrierRequestDto inputRequest) {
+        log.info("Received request to barrier open, request body: {}", inputRequest);
         try {
-            //TODO логика открытия шлагбаума
-            //....какая то логика....
+            DeviceResponseDto group = deviceResource.getGroupDevices(inputRequest.getBarrierId(), DeviceType.ENTRY);
+
+            requestToOpenBarrier(group);
             BarrierResponseDto barrierResponseDto = new BarrierResponseDto()
-                    .setBarrierId(request.getBarrierId())
+                    .setBarrierId(inputRequest.getBarrierId())
                     .setBarrierResponseStatus(BarrierResponseStatus.SUCCESS);
-            log.info("Barrier successfully opened, barrier ID {}", request.getBarrierId());
+            log.info("Barrier successfully opened, barrier ID {}", inputRequest.getBarrierId());
             return barrierResponseDto;
         } catch (Exception e) {
-            logActionBuilder.buildActionObjectAndLogAction(request.getBarrierId(),
+            logActionBuilder.buildActionObjectAndLogAction(inputRequest.getBarrierId(),
                     0L,
-                    request.getGovernmentNumber(),
+                    inputRequest.getGovernmentNumber(),
                     ActionStatus.UNKNOWN,
                     true,
                     new Description().setStatusCode("500")
                             .setErroredServiceName("Ariss Barrier")
                             .setMessage(e.getMessage() != null ? e.getMessage() : "Internal error: " + e.getLocalizedMessage()));
+            throw e;
         }
+    }
 
-        return null;
+    @SneakyThrows
+    private void requestToOpenBarrier(DeviceResponseDto group) {
+        log.info("start open barrier, deviceId: {}", group.getDeviceId());
+        HttpResponse<String> response = HttpClient
+                .newBuilder()
+                .connectTimeout(Duration.ofSeconds(15))
+                .build()
+                .send(HttpRequest.newBuilder()
+                        .GET()
+                        .uri(new URI("http://" + group.getEntryAddress() + "/api/squd-core/barrier/open/" + group.getDeviceId()))
+                        .build(), HttpResponse.BodyHandlers.ofString());
+        log.info("response is {}", response);
     }
 }
