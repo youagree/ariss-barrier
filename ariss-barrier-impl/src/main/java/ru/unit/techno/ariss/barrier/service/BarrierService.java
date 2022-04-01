@@ -56,6 +56,12 @@ public class BarrierService {
             DeviceResponseDto group = deviceResource.getGroupDevices(inputRequest.getBarrierId(), DeviceType.ENTRY);
 
             requestToOpenBarrier(group);
+
+            logActionBuilder.buildActionObjectAndLogAction(inputRequest.getBarrierId(),
+                    null,
+                    inputRequest.getGovernmentNumber(),
+                    ActionStatus.UNKNOWN);
+
             BarrierResponseDto barrierResponseDto = new BarrierResponseDto()
                     .setBarrierId(inputRequest.getBarrierId())
                     .setBarrierResponseStatus(BarrierResponseStatus.SUCCESS);
