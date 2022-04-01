@@ -49,7 +49,6 @@ public class BarrierService {
         }
     }
 
-    @SneakyThrows
     public BarrierResponseDto openBarrier(BarrierRequestDto inputRequest) {
         log.info("Received request to barrier open, request body: {}", inputRequest);
         try {
@@ -91,6 +90,9 @@ public class BarrierService {
                         .GET()
                         .uri(new URI("http://" + group.getEntryAddress() + "/api/squd-core/barrier/open/" + group.getDeviceId()))
                         .build(), HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("barrier not open");
+        }
         log.info("response is {}", response);
     }
 }
