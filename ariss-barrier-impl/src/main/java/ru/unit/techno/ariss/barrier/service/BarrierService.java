@@ -29,6 +29,7 @@ public class BarrierService {
     private final LogActionBuilder logActionBuilder;
     private final DeviceResource deviceResource;
 
+    // add exception handler, return bad status
     public void forceOpen(BarrierRequestDtoUi request) {
         try {
             DeviceResponseDto group = deviceResource.getGroupDevices(request.getBarrierId(), DeviceType.ENTRY);
@@ -46,6 +47,7 @@ public class BarrierService {
                     new Description().setStatusCode("500")
                             .setErroredServiceName("Ariss Barrier")
                             .setMessage(e.getMessage() != null ? e.getMessage() : "Internal error: " + e.getLocalizedMessage()));
+            throw e;
         }
     }
 
