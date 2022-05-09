@@ -22,9 +22,9 @@ spring:
           literal_handling_mode: BIND
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/unit_techno?currentSchema=ariss_barrier
-    username: ariss_barrier_admin
-    password: squd
+    url: ${DATASOURCE_MAIN_DSN:jdbc:postgresql://localhost:5432/unit_techno?currentSchema=ariss_barrier}
+    username: ${DATASOURCE_MAIN_USERNAME:ariss_barrier_admin}
+    password: ${DATASOURCE_MAIN_PASSWORD:squd}
 
 eureka:
   client:
